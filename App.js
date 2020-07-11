@@ -1,23 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, Platform, KeyboardAvoidingView, ImageBackground } from 'react-native';
+import { StyleSheet, Text, Platform, KeyboardAvoidingView, View, ImageBackground } from 'react-native';
 import SearchInput from './components/SearchInput'
 
 
 export default function App() {
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={'padding'}>
+    <KeyboardAvoidingView style={styles.container}>
       <ImageBackground
         source = {require('./assets/rainybg.jpg')}
         style = {styles.imageContainer}
-        imageStyle = {styles.image} 
-      />
+        imageStyle = {styles.image}
+        >
 
-      <Text style={[styles.textStyle, styles.largeText]}>San Francisco</Text>
-      <Text style={[styles.textStyle, styles.smallText]}>Light Cloud</Text>
-      <Text style={[styles.textStyle, styles.largeText]}>32 Degrees</Text>  
+        <View style = {styles.detailsContainer}>
+          <Text style={[styles.textStyle, styles.largeText]}>San Francisco</Text>
+          <Text style={[styles.textStyle, styles.smallText]}>Light Cloud</Text>
+          <Text style={[styles.textStyle, styles.largeText]}>32 Degrees</Text>
+          <SearchInput placeholder='Search any city!' />
+        </View>
 
-      <SearchInput placeholder='Search any city!' />
-
+      </ImageBackground>
     </KeyboardAvoidingView>
   );
 }
@@ -25,12 +27,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#34495E',
   },
   textStyle: {
     textAlign: 'center',
+    color: 'white',
     ...Platform.select({
       ios: {
         fontFamily: 'AvenirNext-Regular'
@@ -45,5 +46,20 @@ const styles = StyleSheet.create({
   },
   smallText: {
     fontSize: 18
+  },
+  imageContainer: {
+    flex: 1
+  },
+  image: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: 'cover'
+  },
+  detailsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    paddingHorizontal: 20,
   }
 });
