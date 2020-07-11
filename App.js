@@ -1,22 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Platform, KeyboardAvoidingView, TextInput } from 'react-native';
+import { StyleSheet, Text, Platform, KeyboardAvoidingView, ImageBackground } from 'react-native';
+import SearchInput from './components/SearchInput'
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={'padding'}>
+      <ImageBackground
+        source = {require('./assets/rainybg.jpg')}
+        style = {styles.imageContainer}
+        imageStyle = {styles.image} 
+      />
+
       <Text style={[styles.textStyle, styles.largeText]}>San Francisco</Text>
       <Text style={[styles.textStyle, styles.smallText]}>Light Cloud</Text>
       <Text style={[styles.textStyle, styles.largeText]}>32 Degrees</Text>  
 
-      <TextInput
-        autoCorrect = {false}
-        placeholder = "Search any city"
-        placeholderTextColor = "white"
-        style = {styles.textInput}
-        clearButtonMode = "always"
-       />
-    </View>
+      <SearchInput placeholder='Search any city!' />
+
+    </KeyboardAvoidingView>
   );
 }
 
@@ -43,14 +45,5 @@ const styles = StyleSheet.create({
   },
   smallText: {
     fontSize: 18
-  },
-  textInput: {
-    backgroundColor: '#666',
-    color: "white",
-    height: 40,
-    width: 300,
-    marginTop: 20,
-    paddingHorizontal: 10,
-    alignSelf: 'center'
   }
 });
