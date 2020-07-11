@@ -4,6 +4,9 @@ import SearchInput from './components/SearchInput'
 
 
 export default function App() {
+  
+  const location = "San Francisco"
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <ImageBackground
@@ -13,8 +16,8 @@ export default function App() {
         >
 
         <View style = {styles.detailsContainer}>
-          <Text style={[styles.textStyle, styles.largeText]}>San Francisco</Text>
-          <Text style={[styles.textStyle, styles.smallText]}>Light Cloud</Text>
+          <Text style={[styles.textStyle, styles.largeText]}>{location}</Text>
+          <Text style={[styles.textStyle, styles.smallText]}>{}</Text>
           <Text style={[styles.textStyle, styles.largeText]}>32 Degrees</Text>
           <SearchInput placeholder='Search any city!' />
         </View>
