@@ -20,9 +20,10 @@ export const fetchLocationId = async city => {
     };
   };
 
-export const fetchBackground = async (weather, location) => {
+  export const fetchBackground = async (weather, location) => {
   const response = await fetch(
     `https://source.unsplash.com/1600x900/?${weather},${location}`,
   );
-  const { jsonResponse } = await response.json();
+  console.log(response.url)
+  return response.url;
 };

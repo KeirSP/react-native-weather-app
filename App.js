@@ -10,7 +10,7 @@ import {
   StatusBar 
  } from 'react-native';
 import SearchInput from './components/SearchInput';
-import { fetchLocationId, fetchWeather } from './utils/api'
+import { fetchLocationId, fetchWeather, fetchBackground } from './utils/api'
 
 
 export default class App extends React.Component{
@@ -21,7 +21,8 @@ export default class App extends React.Component{
       error: false,
       location: '',
       temperature: 0,
-      weather: ''
+      weather: '',
+      source: 'https://images.unsplash.com/photo-1592229127216-2b90ca9cd13d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max'
     }
   }
 
@@ -38,6 +39,7 @@ export default class App extends React.Component{
         const { location, temperature, weather } = await fetchWeather(
           locationId,
         );
+        const uri = await fetchBackground(weather, location);
 
         this.setState({
           loading: false,
@@ -45,6 +47,7 @@ export default class App extends React.Component{
           location,
           weather,
           temperature,
+          source: uri
         })
 
       } catch (e) {
@@ -58,14 +61,13 @@ export default class App extends React.Component{
   }
 
   render () {
-    const { loading, error, location, weather, temperature } = this.state;
-
+    const { loading, error, location, weather, temperature, source } = this.state;
 
     return (
       <KeyboardAvoidingView style={styles.container}>
         <StatusBar barStyle="light-content" />
         <ImageBackground
-          source = {require('./assets/rainybg.jpg')}
+          source = {{uri : source}}
           //refactor this to use an unsplash source API call
           style = {styles.imageContainer}
           imageStyle = {styles.image}
