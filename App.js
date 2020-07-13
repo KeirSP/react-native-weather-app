@@ -66,6 +66,7 @@ export default class App extends React.Component{
         <StatusBar barStyle="light-content" />
         <ImageBackground
           source = {require('./assets/rainybg.jpg')}
+          //refactor this to use an unsplash source API call
           style = {styles.imageContainer}
           imageStyle = {styles.image}
           >
