@@ -39,7 +39,7 @@ export default class App extends React.Component{
         const { location, temperature, weather } = await fetchWeather(
           locationId,
         );
-        const uri = await fetchBackground(weather, location);
+        const uri = await fetchBackground(weather);
 
         this.setState({
           loading: false,
