@@ -63,6 +63,7 @@ export default class App extends React.Component{
 
     return (
       <KeyboardAvoidingView style={styles.container}>
+        <StatusBar barStyle="light-content" />
         <ImageBackground
           source = {require('./assets/rainybg.jpg')}
           style = {styles.imageContainer}
@@ -70,7 +71,7 @@ export default class App extends React.Component{
           >
 
           <View style = {styles.detailsContainer}>
-            <ActivityIndicator animating={loading} color={white} size={large}/>
+            <ActivityIndicator animating={loading} color="white" size="large"/>
 
             {!loading && (
               <View>
@@ -83,7 +84,7 @@ export default class App extends React.Component{
                   <View>
                     <Text style={[styles.textStyle, styles.largeText]}>{location}</Text>
                     <Text style={[styles.textStyle, styles.smallText]}>{weather}</Text>
-                    <Text style={[styles.textStyle, styles.largeText]}>{`${Math.round(temperature)}`}</Text>
+                    <Text style={[styles.textStyle, styles.largeText]}>{`${Math.round(temperature)}°`}</Text>
                   </View>      
                 )}
               </View>
