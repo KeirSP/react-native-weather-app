@@ -1,30 +1,101 @@
 import React from 'react';
-import { StyleSheet, Text, Platform, KeyboardAvoidingView, View, ImageBackground } from 'react-native';
-import SearchInput from './components/SearchInput'
+import { 
+  StyleSheet, 
+  Text, 
+  Platform, 
+  KeyboardAvoidingView, 
+  View, 
+  ImageBackground,
+  ActivityIndicator,
+  StatusBar 
+ } from 'react-native';
+import SearchInput from './components/SearchInput';
+import { fetchLocationId, fetchWeather } from './utils/api'
 
 
-export default function App() {
-  
-  const location = "San Francisco"
+export default class App extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      error: false,
+      location: '',
+      temperature: 0,
+      weather: ''
+    }
+  }
 
-  return (
-    <KeyboardAvoidingView style={styles.container}>
-      <ImageBackground
-        source = {require('./assets/rainybg.jpg')}
-        style = {styles.imageContainer}
-        imageStyle = {styles.image}
-        >
+  componentDidMount() {
+    this.handleUpdateLocation("San Francisco")
+  }
 
-        <View style = {styles.detailsContainer}>
-          <Text style={[styles.textStyle, styles.largeText]}>{location}</Text>
-          <Text style={[styles.textStyle, styles.smallText]}>{}</Text>
-          <Text style={[styles.textStyle, styles.largeText]}>32 Degrees</Text>
-          <SearchInput placeholder='Search any city!' />
-        </View>
+  handleUpdateLocation = async city => {
+    if (!city) return;
+    
+    this.setState({ loading: true }, async () => {
+      try {
+        const locationId = await fetchLocationId(city);
+        const { location, temperature, weather } = await fetchWeather(
+          locationId,
+        );
 
-      </ImageBackground>
-    </KeyboardAvoidingView>
-  );
+        this.setState({
+          loading: false,
+          error: false,
+          location,
+          weather,
+          temperature,
+        })
+
+      } catch (e) {
+        this.setState({
+          loading: false,
+          error: true
+        })
+      }
+    })
+
+  }
+
+  render () {
+    const { loading, error, location, weather, temperature } = this.state;
+
+
+    return (
+      <KeyboardAvoidingView style={styles.container}>
+        <ImageBackground
+          source = {require('./assets/rainybg.jpg')}
+          style = {styles.imageContainer}
+          imageStyle = {styles.image}
+          >
+
+          <View style = {styles.detailsContainer}>
+            <ActivityIndicator animating={loading} color={white} size={large}/>
+
+            {!loading && (
+              <View>
+                {error && (
+                  <Text style={[styles.textStyle, styles.smallText]}>
+                    Could not load weather, please try a different location.
+                  </Text>
+                )}
+                {!error && (
+                  <View>
+                    <Text style={[styles.textStyle, styles.largeText]}>{location}</Text>
+                    <Text style={[styles.textStyle, styles.smallText]}>{weather}</Text>
+                    <Text style={[styles.textStyle, styles.largeText]}>{`${Math.round(temperature)}`}</Text>
+                  </View>      
+                )}
+              </View>
+            )}
+
+            <SearchInput placeholder='Search any city!' onSubmit = {this.handleUpdateLocation} />
+          </View>
+
+        </ImageBackground>
+      </KeyboardAvoidingView>
+    );
+}
 }
 
 const styles = StyleSheet.create({
@@ -65,4 +136,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.2)',
     paddingHorizontal: 20,
   }
-});
+})
